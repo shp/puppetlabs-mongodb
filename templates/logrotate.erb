@@ -1,0 +1,13 @@
+# mongod logrotate - generated from Puppet
+<%= logpath -%> {
+    daily
+    rotate 1095 # keep 3 years
+    copytruncate
+    delaycompress
+    compress
+    notifempty
+    extension gz
+    sharedscripts
+    missingok
+    #create 640 mongod mongod
+}
