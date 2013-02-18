@@ -97,3 +97,12 @@ only = <%= only %>
 <% if @master %>
 master = <%= master %>
 <% end %>
+# Configure ReplicaSet membership
+<% if @replSet %>
+replSet = <%= replSet %>
+<% end %>
+# Enable REST API
+<% if @rest %>
+rest = <%= rest %>
+<% end %>
+
