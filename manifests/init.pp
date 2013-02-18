@@ -30,7 +30,7 @@
 # Copyright 2012 PuppetLabs
 #
 class mongodb (
-  $enable_10gen    = false,
+  $enable_10gen    = true,
   $init            = $mongodb::params::init,
   $location        = '',
   $packagename     = undef,
