@@ -45,6 +45,7 @@ class mongodb (
   $cpu             = undef,
   $noauth          = undef,
   $auth            = undef,
+  $keyFile         = undef, 
   $verbose         = undef,
   $objcheck        = undef,
   $quota           = undef,

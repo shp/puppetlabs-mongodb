@@ -29,6 +29,9 @@ noauth = <%= noauth %>
 <% if @auth %>
 auth = <%= auth %>
 <% end %>
+<% if @keyFile %>
+keyFile = <%= keyFile %>
+<% end %>
 <% if @verbose %>
 # Verbose logging output.
 verbose = <%= verbose %>
