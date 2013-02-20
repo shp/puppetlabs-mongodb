@@ -41,6 +41,7 @@ class mongodb (
   $port            = '27017',
   $dbpath          = '/var/lib/mongodb',
   $nojournal       = undef,
+  $smallfiles      = undef,
   $cpu             = undef,
   $noauth          = undef,
   $auth            = undef,
