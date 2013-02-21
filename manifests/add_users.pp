@@ -4,7 +4,7 @@ define mongodb::add_users(
 )
 {
   if defined($db){
-    if defined($users){
+    if !empty($users){
   
       include mongodb
   
