@@ -1,5 +1,5 @@
 define mongodb::add_users(
-  $db
+  $db,
   $users
 )
 {
