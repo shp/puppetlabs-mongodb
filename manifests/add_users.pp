@@ -9,7 +9,7 @@ define mongodb::add_users(
       include mongodb
   
       file {"add_users.js":
-        path => '/tmp/add_users.js',
+        path    => '/tmp/add_users.js',
         ensure  => file,
         content => template('mongodb/add_users.js.erb'),
         owner   => mongodb,
@@ -28,5 +28,3 @@ define mongodb::add_users(
   }
   if !defined($db){fail("No db specified for adding users.")} 
 }
-
-
