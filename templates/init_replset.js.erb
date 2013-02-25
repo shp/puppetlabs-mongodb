@@ -1,15 +1,19 @@
 var rsconf = {
-    "_id": <%= replSet %>,
+    "_id":"<%= replSet %>",
     "members": [
-        <% members.each_with_index do |member, index| %>
+        <% members.each_with_index do |member, index| -%>
         {
             "_id": <%= index %>,
-            "host": '<%= member %>',
-            <% if member['arbiterOnly']%>
+            "host": '<%= member['host']host %>',
+            <% if member['arbiterOnly'] -%>
             "arbiterOnly": <%= member['arbiterOnly'] %>
-            <% end %>
-        <% end %>
+            <% end -%>
+        <% end -%>
     ]
 }
 
 rs.initiate(rsconf);
+
+
+
+
