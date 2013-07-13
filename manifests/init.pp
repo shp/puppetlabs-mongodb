@@ -30,26 +30,31 @@
 # Copyright 2012 PuppetLabs
 #
 class mongodb (
-  $enable_10gen    = false,
+  $enable_10gen    = true,
   $init            = $mongodb::params::init,
   $location        = '',
   $packagename     = undef,
   $servicename     = $mongodb::params::service,
-  $logpath         = '/var/log/mongo/mongod.log',
+  $logpath         = '/var/log/mongodb/mongodb.log',
   $logappend       = true,
-  $mongofork       = true,
+  $verbose         = false,
+  $dbpath          = '/var/lib/mongodb',
+  $directoryperdb  = true,  
   $port            = '27017',
-  $dbpath          = '/var/lib/mongo',
-  $nojournal       = undef,
-  $cpu             = undef,
+  $bind_ip         = undef,  
+  $mongofork       = undef,
   $noauth          = undef,
   $auth            = undef,
-  $verbose         = undef,
+  $keyFile         = undef,   
+  $nojournal       = undef,
+  $smallfiles      = undef,
+  $cpu             = undef,
   $objcheck        = undef,
-  $quota           = undef,
   $oplog           = undef,
   $nohints         = undef,
+  $quota           = undef,
   $nohttpinterface = undef,
+  $rest            = undef,
   $noscripting     = undef,
   $notablescan     = undef,
   $noprealloc      = undef,
@@ -57,10 +62,12 @@ class mongodb (
   $mms_token       = undef,
   $mms_name        = undef,
   $mms_interval    = undef,
-  $slave           = undef,
-  $only            = undef,
   $master          = undef,
-  $source          = undef
+  $slave           = undef,
+  $source          = undef,
+  $only            = undef,
+  $slaveDelay      = undef,
+  $replSet         = undef
 ) inherits mongodb::params {
 
   if $enable_10gen {
@@ -81,8 +88,16 @@ class mongodb (
     ensure => installed,
   }
 
-  file { '/etc/mongod.conf':
+  file { '/etc/mongodb.conf':
     content => template('mongodb/mongod.conf.erb'),
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0644',
+    require => Package['mongodb-10gen'],
+  }
+  
+  file { '/etc/logrotate.d/mongod':
+    content => template('mongodb/logrotate.erb'),
     owner   => 'root',
     group   => 'root',
     mode    => '0644',
@@ -93,6 +108,6 @@ class mongodb (
     name      => $servicename,
     ensure    => running,
     enable    => true,
-    subscribe => File['/etc/mongod.conf'],
+    subscribe => File['/etc/mongodb.conf'],
   }
 }

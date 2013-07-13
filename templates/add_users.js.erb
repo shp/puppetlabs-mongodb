@@ -1,0 +1,10 @@
+var user = [
+<% users.each do |user| %>
+  {name:'<%= user['name']%>', passwd:'<%= user['passwd']%>', readOnly:<%= user['readOnly']%>},
+<% end %>
+];
+
+for (var i in user){
+    db.addUser(user[i].name, user[i].passwd, user[i].readOnly);
+}
+
