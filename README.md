@@ -27,6 +27,13 @@ Examples:
       enable_10gen => true,
     }
 
+    mongodb::add_user { "yomama":
+      password => "aVeryNicePasswordInPlainText",
+      database => "test",
+    }
+
+
+
 ## Supported Platforms
 
 * Debian Wheezy
