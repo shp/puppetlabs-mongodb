@@ -1,0 +1,7 @@
+// -*- mode: javascript -*-
+db = db.getSiblingDB("<%= @database %>")
+db.addUser({
+    user: "<%= @username %>", 
+    pwd: "<%= @password %>",
+    roles: [<% @roles.each do |role| -%>"<%= role %>",<% end -%>],
+});

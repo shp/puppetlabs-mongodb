@@ -1,0 +1,8 @@
+// -*- mode: javascript -*-
+
+var readOnly = true;
+<% @roles.each do |role| %>
+<% if role.include? "Write" %>readOnly = false;<% end %>
+<% end %>
+
+db.addUser("<%= @username %>", "<%= @password %>", readOnly);
