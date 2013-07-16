@@ -47,7 +47,7 @@ define mongodb::add_user(
 
   # actually run the script the script to create the new users
   exec {"${script_filename}":
-    logoutput => true,
+    logoutput => on_failure,
     path      => ["/sbin", "/usr/sbin", "/bin", "/usr/bin"],
     require   => [ File["${filename_pre24}"], File["${filename_post24}"],
                    File["${script_filename}"] ],
