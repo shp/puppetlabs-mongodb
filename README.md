@@ -27,6 +27,11 @@ Examples:
       enable_10gen => true,
     }
 
+    mongodb::add_user { "yomama":
+      password => "aVeryNicePasswordInPlainText",
+      database => "test",
+    }
+
 ### class mongodb::python
 
 Installs the python bindings for mongodb using the pip provider.

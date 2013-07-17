@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+# -*- mode: sh -*-
+
+# exit on failure
+set -e
+
+# test to see what version of mongo this is
+v=$(mongod --version | sed 's/\(.*\)\([0-9]\+\.[0-9]\+\.[0-9]\+\)\(.*\)/\2/')
+
+if [[ "${v}" < "2.4" ]]; then
+
+    # for mongo <2.4, just need to add users using the 
+    mongo <%= @database %> <%= @filename_pre24 %>
+
+else
+
+    # check to see if auth is enabled in this instance of mongodb
+    set +e
+    grep "^auth" /etc/mongodb.conf | grep true
+    auth_enabled=$?
+    set -e
+
+    # turn off authentication
+    if [ $auth_enabled -eq 0 ]; then
+	sed -i 's/^auth/#auth/' /etc/mongodb.conf
+	service mongodb restart
+    fi
+
+    # run the mongo script to create the user. need to sleep
+    # momentarily before running script
+    sleep 2s
+    mongo <%= @filename_post24 %>
+
+    # re-enable authentication and restart the mongo service
+    if [ $auth_enabled -eq 0 ]; then
+	sed -i 's/^#auth/auth/' /etc/mongodb.conf
+	service mongodb restart
+    fi
+fi
+
