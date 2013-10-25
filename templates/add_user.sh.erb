@@ -22,19 +22,19 @@ else
 
     # turn off authentication
     if [ $auth_enabled -eq 0 ]; then
-	sed -i 's/^auth/#auth/' /etc/mongodb.conf
-	service mongodb restart
+        sed -i 's/^auth/#auth/' /etc/mongodb.conf
+        service mongodb restart
     fi
 
     # run the mongo script to create the user. need to sleep
     # momentarily before running script
-    sleep 2s
+    until lsof -iTCP:<%= @port %>; do sleep 1; done
     mongo <%= @filename_post24 %>
 
     # re-enable authentication and restart the mongo service
     if [ $auth_enabled -eq 0 ]; then
-	sed -i 's/^#auth/auth/' /etc/mongodb.conf
-	service mongodb restart
+        sed -i 's/^#auth/auth/' /etc/mongodb.conf
+        service mongodb restart
     fi
 fi
 
