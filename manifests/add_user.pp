@@ -51,7 +51,6 @@ define mongodb::add_user(
     path      => ["/sbin", "/usr/sbin", "/bin", "/usr/bin"],
     require   => [ File["${filename_pre24}"], File["${filename_post24}"],
                    File["${script_filename}"] ],
-    onlyif    => "grep '^auth' /etc/mongodb.conf",
     unless    => "mongo -p${password} -u ${username} --eval 'db.system.users.find()' ${database}",
   }
   
