@@ -3,8 +3,11 @@ define mongodb::add_user(
   $password = undef,
   $database = undef,
   $roles = ["readWrite"],
+  $useOldStylePermissionsOn2dot4 = false,
 )
 {
+  validate_bool($useOldStylePermissionsOn2dot4)
+
   if $password == undef {
     fail("No password specified for adding user '${user}'.")
   }
