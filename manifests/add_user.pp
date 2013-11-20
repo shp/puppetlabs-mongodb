@@ -3,6 +3,7 @@ define mongodb::add_user(
   $password = undef,
   $database = undef,
   $roles = ["readWrite"],
+  $useOldStylePermissionsOn2dot4 = false,
 )
 {
   if $password == undef {
