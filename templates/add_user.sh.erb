@@ -10,10 +10,16 @@ v=$(mongod --version | sed 's/\(.*\)\([0-9]\+\.[0-9]\+\.[0-9]\+\)\(.*\)/\2/')
 # http://docs.mongodb.org/manual/release-notes/#release-version-numbers for explanation of mongo versioning numbers
 # (2.0, 2.2, 2.4, etc... are the stable builds)
 if [[ "${v}" < "<%= @useOldStylePermissionsOn2dot4 ? "2.6" : "2.4" %>" ]]; then
+    mongo_perms_file="<%= @filename_pre24 %>"
+else
+    mongo_perms_file="<%= @filename_post24 %>"
+fi
+
+if [[ "${v}" < "2.4" ]]; then
 
     until lsof -iTCP:<%= @port %>; do sleep 1; done
     # for mongo <2.4, just need to add users using the 
-    mongo <%= @database %> <%= @filename_pre24 %>
+    mongo <%= @database %> "$mongo_perms_file"
 
 else
 
@@ -32,7 +38,7 @@ else
     # run the mongo script to create the user. need to sleep
     # momentarily before running script
     until lsof -iTCP:<%= @port %>; do sleep 1; done
-    mongo <%= @filename_post24 %>
+    mongo "$mongo_perms_file"
 
     # re-enable authentication and restart the mongo service
     if [ $auth_enabled -eq 0 ]; then
